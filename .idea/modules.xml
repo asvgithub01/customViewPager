@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/testViewPagerVerticalHorizontal.iml" filepath="$PROJECT_DIR$/testViewPagerVerticalHorizontal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customViewPager.iml" filepath="$PROJECT_DIR$/customViewPager.iml" />
     </modules>
   </component>
 </project>

@@ -72,8 +72,6 @@ public class VerticalViewPager extends ViewPager {
   /**
    * Swaps the X and Y coordinates of your touch event.
    */
-  float prevX = 0;
-  float prevY = 0;
 
   private MotionEvent swapXY(MotionEvent ev) {
     float width = getWidth();
@@ -87,195 +85,44 @@ public class VerticalViewPager extends ViewPager {
     return ev;
   }
 
-  @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
-    System.out.println("mBIntercept" + mBIntercept + "************************");
-    return mBIntercept;
-    ////boolean intercepted = super.onInterceptTouchEvent(swapXY(ev));
-    //swapXY(ev);
-    //
-    ////System.out.println("prevX" + prevX + "************************");
-    ////System.out.println("prevY" + prevY + "************************");
-    ////float dX = prevX - ev.getX();
-    ////float dY = prevY - ev.getY();
-    ////System.out.println("ev.getX()" + ev.getX() + "************************");
-    ////System.out.println("ev.getY()" + ev.getY() + "************************");
-    ////
-    ////System.out.println("DX" + dX + "************************");
-    ////System.out.println("DY" + dY + "************************");
-    ////
-    ////prevX = ev.getX();
-    ////prevY = ev.getY();
-    ////if (Math.abs(dX) > Math.abs(dY)) {
-    ////  System.out.println("************************HORIZONTAL************************");
-    ////  //if (((CustomVerticalPagerAdapter) this.getAdapter()).mPosition == 0) {
-    ////  //  return true;
-    ////  //} else {
-    ////  return false;
-    ////  //}
-    ////} else {
-    ////  System.out.println("************************VERTICAL************************");
-    ////  //if (((CustomVerticalPagerAdapter) this.getAdapter()).mPosition == 0) {
-    ////  //  return false;
-    ////  //} else {
-    ////  return true;
-    ////}
-    //switch (ev.getAction()) {
-    //  case MotionEvent.ACTION_MOVE: {
-    //    downX = ev.getX();
-    //    downY = ev.getY();
-    //
-    //    if (!isTouchCaptured) {
-    //      upX1 = ev.getX();
-    //      upY1 = ev.getY();
-    //      isTouchCaptured = true;
-    //    } else {
-    //      upX2 = ev.getX();
-    //      upY2 = ev.getY();
-    //      float deltaX = upX1 - upX2;
-    //      float deltaY = upY1 - upY2;
-    //      //HORIZONTAL SCROLL
-    //      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    //
-    //        System.out.println("###HORIZONTAL");
-    //        //return false; //test
-    //        if (Math.abs(deltaX) > min_distance) {
-    //          // left or right
-    //          if (deltaX < 0) {
-    //            return false;
-    //            //if(!eventSent && mSwiperListener!=null){
-    //            //  mSwiperListener.onLeftSwipe();
-    //            //  eventSent = true;
-    //            //  return false; //test
-    //            //}
-    //          }
-    //          if (deltaX > 0) {
-    //            return false;
-    //            //if(!eventSent && mSwiperListener!=null){
-    //            //  if(mSwiperListener.onRightSwipe()){
-    //            //    eventSent = true;
-    //            //    return false;
-    //            //  }
-    //            //}
-    //          }
-    //        } else {
-    //          //not long enough swipe...
-    //        }
-    //      }
-    //      //VERTICAL SCROLL
-    //      else {
-    //        System.out.println("###VERTICAL");
-    //
-    //        if (Math.abs(deltaY) > min_distance) {
-    //          // top or down
-    //          if (deltaY < 0) {
-    //            return super.onInterceptTouchEvent(swapXY(ev));
-    //          }
-    //          if (deltaY > 0) {
-    //            return super.onInterceptTouchEvent(swapXY(ev));
-    //          }
-    //        } else {
-    //          //not long enough swipe...
-    //        }
-    //      }
-    //    }
-    //  }
-    //  break;
-    //  case MotionEvent.ACTION_UP:
-    //  case MotionEvent.ACTION_CANCEL: {
-    //    isTouchCaptured = false;
-    //    eventSent = false;
-    //  }
-    //}
-    //return false;
-  }
+  //false false hace bien el horizontal
+  @Override public boolean onInterceptTouchEvent(MotionEvent event) {
+    System.out.println("VPV ###  VERTICAL " + App.mBInterceptVertical);
+    //return false;//
 
-  //if (((CustomVerticalPagerAdapter) this.getAdapter()).mPosition == 0) {
-  //  return false;
-  //} else {
-  //  return true;
-  //}
-
-  //return intercepted;
-  // return true;
-  //}
-  static boolean mBIntercept = true;
-
-  @Override public boolean onTouchEvent(MotionEvent event) {
-    // mBIntercept=true;
-    mBIntercept = evaluateIntercept(swapXY(event));
-    if (mBIntercept) {
-      return super.onTouchEvent(swapXY(event));
+    if (getAdapter().getItemPosition(this.getCurrentItem()) <= 0) {
+      App.mBInterceptINH = true;
     } else {
-      return super.onTouchEvent(event);
+      App.mBInterceptINH = false;
+    }
+
+    //SIN ESTO CHUTA EN VERTICAL evaluateIntercept(swapXY(event));
+
+    if (App.mBInterceptVertical) {
+      swapXY(event);
+      return super.onInterceptTouchEvent(swapXY(event));
+    } else {
+      return false;
     }
   }
-
-  private boolean evaluateIntercept(MotionEvent event) {
-    switch (event.getAction()) {
-      case MotionEvent.ACTION_MOVE: {
-        downX = event.getX();
-        downY = event.getY();
-
-        if (!isTouchCaptured) {
-          upX1 = event.getX();
-          upY1 = event.getY();
-          isTouchCaptured = true;
-        } else {
-          upX2 = event.getX();
-          upY2 = event.getY();
-          float deltaX = upX1 - upX2;
-          float deltaY = upY1 - upY2;
-          //HORIZONTAL SCROLL
-          if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            System.out.println("###HORIZONTAL");
-            if (Math.abs(deltaX) > min_distance) {
-              // left or right
-              return false;
-            }
-          }
-          //VERTICAL SCROLL
-          else {
-            System.out.println("###VERTICAL");
-            if (Math.abs(deltaY) > min_distance) {
-              return true;
-            }
-          }
-        }
-      }
-      break;
-      case MotionEvent.ACTION_UP:
-      case MotionEvent.ACTION_CANCEL: {
-        isTouchCaptured = false;
-        eventSent = false;
-      }
-    }
-    return false;
-  }
-
-  SwiperListener mSwiperListener;
   private float downX;
   private float downY;
   private boolean isTouchCaptured;
   private float upX1;
   private float upY1;
-  private float upX2;
-  private float upY2;
-  private float x1, x2;
-  static final int min_distance = 20;
+  @Override public boolean onTouchEvent(MotionEvent event) {
+    System.out.println("VPV ### onTouchEvent" +event.getAction());
 
-  boolean eventSent = false;
+    /**/
+    //return  super.onTouchEvent(swapXY(event));
+    //  return false;
 
-  public void setmSwiperListener(SwiperListener mSwiperListener) {
-    this.mSwiperListener = mSwiperListener;
+    if (App.mBInterceptVertical) {
+      return super.onTouchEvent(swapXY(event));
+    } else {
+      return false;
+    }
   }
 
-  public static interface SwiperListener {
-    public boolean onLeftSwipe();
 
-    public boolean onDownSwipe();
-
-    public boolean onTopSwipe();
-
-    public boolean onRightSwipe();
-  }
 }
