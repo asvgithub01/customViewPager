@@ -89,15 +89,12 @@ public class VerticalViewPager extends ViewPager {
   @Override public boolean onInterceptTouchEvent(MotionEvent event) {
     System.out.println("VPV ###  VERTICAL " + App.mBInterceptVertical);
     //return false;//
-
     if (getAdapter().getItemPosition(this.getCurrentItem()) <= 0) {
       App.mBInterceptINH = true;
     } else {
       App.mBInterceptINH = false;
     }
-
     //SIN ESTO CHUTA EN VERTICAL evaluateIntercept(swapXY(event));
-
     if (App.mBInterceptVertical) {
       swapXY(event);
       return super.onInterceptTouchEvent(swapXY(event));
@@ -105,14 +102,17 @@ public class VerticalViewPager extends ViewPager {
       return false;
     }
   }
+
   private float downX;
   private float downY;
   private boolean isTouchCaptured;
   private float upX1;
   private float upY1;
-  @Override public boolean onTouchEvent(MotionEvent event) {
-    System.out.println("VPV ### onTouchEvent" +event.getAction());
 
+  @Override public boolean onTouchEvent(MotionEvent event) {
+    System.out.println("VPV ### onTouchEvent" + event.getAction());
+
+    if (App.mBInterceptVertical) App.onTouchMethod(event);
     /**/
     //return  super.onTouchEvent(swapXY(event));
     //  return false;
@@ -123,6 +123,4 @@ public class VerticalViewPager extends ViewPager {
       return false;
     }
   }
-
-
 }

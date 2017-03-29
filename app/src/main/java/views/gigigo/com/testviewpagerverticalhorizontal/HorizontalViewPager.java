@@ -123,6 +123,7 @@ public class HorizontalViewPager extends ViewPager {
     //SIN ESTO O CON ESTO EL VERTICAL FUNCIONA
 
     //  return false;
+    if (App.mBInterceptINH) App.onTouchMethod(event);
 
     if (App.mBInterceptHorizontal) {
       return super.onTouchEvent(event);
