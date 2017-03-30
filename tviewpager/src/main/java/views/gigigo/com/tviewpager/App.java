@@ -63,7 +63,7 @@ public class App  {
                 if (idxVideoTo >= mHorizontalVP.getAdapter().getCount())  {
                   idxVideoTo =  mHorizontalVP.getAdapter().getCount();
                 }
-                mHorizontalVP.setCurrentItem(idxVideoTo);
+                mHorizontalVP.setCurrentItem(idxVideoTo,false); //wiija el false elimina la animacion y hace q funcione en tiempo
                // mHorizontalVP.
               }
               if(mVerticalVP.getCurrentItem()==0) {

@@ -31,6 +31,7 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
 
 
   @Override public Object instantiateItem(ViewGroup collection, int pos) {
+
     LayoutInflater inflater = LayoutInflater.from(mContext);
     ViewGroup layout;
 
@@ -69,7 +70,7 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
   }
 
   @Override public int getCount() {
-   return  mLstHorizontalFirstItem.size()*1000;// Integer.MAX_VALUE;
+   return  mLstHorizontalFirstItem.size()*50;// Integer.MAX_VALUE;
     // return mLstHorizontalFirstItem.size();
   }
 
