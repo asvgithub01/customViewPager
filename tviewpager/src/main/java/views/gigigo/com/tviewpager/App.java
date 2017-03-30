@@ -1,4 +1,4 @@
-package views.gigigo.com.testviewpagerverticalhorizontal;
+package views.gigigo.com.tviewpager;
 
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;

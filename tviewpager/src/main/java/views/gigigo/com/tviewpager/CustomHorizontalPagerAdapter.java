@@ -1,4 +1,4 @@
-package views.gigigo.com.testviewpagerverticalhorizontal;
+package views.gigigo.com.tviewpager;
 
 import android.content.Context;
 import android.graphics.Color;
