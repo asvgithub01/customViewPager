@@ -23,6 +23,7 @@ public class VerticalViewPager extends ViewPager {
     setPageTransformer(true, new VerticalPageTransformer());
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
     setOverScrollMode(OVER_SCROLL_NEVER);
+    App.mVerticalVP=this  ;
   }
 
   private class VerticalPageTransformer implements ViewPager.PageTransformer {
@@ -61,14 +62,6 @@ public class VerticalViewPager extends ViewPager {
     }
   }
 
-  //@Override protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
-  //  if (v instanceof HorizontalViewPager) {
-  //    return ((HorizontalViewPager) v).canScrollHor(-dx);
-  //  } else {
-  //    return super.canScroll(v, checkV, dx, x, y);
-  //  }
-  //}
-
   /**
    * Swaps the X and Y coordinates of your touch event.
    */
@@ -85,16 +78,15 @@ public class VerticalViewPager extends ViewPager {
     return ev;
   }
 
-  //false false hace bien el horizontal
   @Override public boolean onInterceptTouchEvent(MotionEvent event) {
     System.out.println("VPV ###  VERTICAL " + App.mBInterceptVertical);
-    //return false;//
+
     if (getAdapter().getItemPosition(this.getCurrentItem()) <= 0) {
       App.mBInterceptINH = true;
     } else {
       App.mBInterceptINH = false;
     }
-    //SIN ESTO CHUTA EN VERTICAL evaluateIntercept(swapXY(event));
+
     if (App.mBInterceptVertical) {
       swapXY(event);
       return super.onInterceptTouchEvent(swapXY(event));
@@ -103,19 +95,10 @@ public class VerticalViewPager extends ViewPager {
     }
   }
 
-  private float downX;
-  private float downY;
-  private boolean isTouchCaptured;
-  private float upX1;
-  private float upY1;
-
   @Override public boolean onTouchEvent(MotionEvent event) {
     System.out.println("VPV ### onTouchEvent" + event.getAction());
 
-    if (App.mBInterceptVertical) App.onTouchMethod(event);
-    /**/
-    //return  super.onTouchEvent(swapXY(event));
-    //  return false;
+    if (App.mBInterceptVertical) App.onTouchMethod(this,event);
 
     if (App.mBInterceptVertical) {
       return super.onTouchEvent(swapXY(event));

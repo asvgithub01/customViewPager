@@ -26,37 +26,12 @@ public class HorizontalViewPager extends ViewPager {
     setPageTransformer(true, new ZoomOutPageTransformer());
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
     setOverScrollMode(OVER_SCROLL_NEVER);
+    App.mHorizontalVP = this;
   }
 
   /**
    * Swaps the X and Y coordinates of your touch event.
    */
-  float prevX = 0;
-  float prevY = 0;
-
-  private MotionEvent swapXY(MotionEvent ev) {
-    float width = getWidth();
-    float height = getHeight();
-
-    float newX = (ev.getY() / height) * width;
-    float newY = (ev.getX() / width) * height;
-
-    ev.setLocation(newX, newY);
-
-    return ev;
-  }
-
-  public boolean canScrollHor(int direction) {
-    final int offset = computeHorizontalScrollOffset();
-    final int range = computeHorizontalScrollRange() - computeHorizontalScrollExtent();
-    if (range == 0) return false;
-    if (direction < 0) {
-      return offset > 0;
-    } else {
-      return offset < range - 1;
-    }
-  }
-
   @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
     System.out.println("VPH ### HORIZONTAL" + App.mBInterceptHorizontal);
 
@@ -69,61 +44,8 @@ public class HorizontalViewPager extends ViewPager {
 
   @Override public boolean onTouchEvent(MotionEvent event) {
     System.out.println("VPH ### onTouchEvent");
-    //if (App.mBInterceptINH) {
-    //  switch (event.getAction()) {
-    //    case MotionEvent.ACTION_UP: {
-    //      System.out.println("VPH @@@ ACTION_up");
-    //    }
-    //    case MotionEvent.ACTION_DOWN: {
-    //      System.out.println("VPH @@@ ACTION_DOWN");
-    //      downX = event.getRawX();
-    //      downY = event.getRawY();
-    //      System.out.println("VPH @@@ ACTION_DOWN" + downX + ":" + downY);
-    //      isTouchCaptured = true;
-    //    }
-    //    case MotionEvent.ACTION_MOVE: {
-    //      if (isTouchCaptured) {
-    //        upX1 = event.getRawX();
-    //        upY1 = event.getRawY();
-    //        System.out.println("VPH @@@ ACTION_MOVE" + upX1 + ":" + upY1);
-    //        float deltaX = upX1 - downX;
-    //        float deltaY = upY1 - downY;
-    //        //HORIZONTAL SCROLL
-    //        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    //          System.out.println("VPH @@@ HORIZONTAL" + Math.abs(deltaX));
-    //          // if (Math.abs(deltaX) > min_distance) {
-    //          // left or right
-    //          App.mBInterceptHorizontal = true;
-    //          App.mBInterceptVertical = false;
-    //          // }
-    //          System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + App.mBInterceptVertical);
-    //          System.out.println(
-    //              "@@@ HORIZONTAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
-    //        }
-    //        //VERTICAL SCROLL
-    //        else {
-    //          System.out.println("VPH @@@VERTICAL" + Math.abs(deltaY));
-    //          // if (Math.abs(deltaY) > min_distance) {
-    //          App.mBInterceptHorizontal = false;
-    //          App.mBInterceptVertical = true;
-    //          // }
-    //          System.out.println("@@@ VERTICAL  mBInterceptVertical" + App.mBInterceptVertical);
-    //          System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
-    //        }
-    //      }
-    //    }
-    //    break;
-    //
-    //    case MotionEvent.ACTION_CANCEL: {
-    //      isTouchCaptured = false;
-    //      eventSent = false;
-    //    }
-    //  }
-    //}
-    //SIN ESTO O CON ESTO EL VERTICAL FUNCIONA
 
-    //  return false;
-    if (App.mBInterceptINH) App.onTouchMethod(event);
+    if (App.mBInterceptINH) App.onTouchMethod(this, event);
 
     if (App.mBInterceptHorizontal) {
       return super.onTouchEvent(event);
@@ -131,18 +53,6 @@ public class HorizontalViewPager extends ViewPager {
       return false;
     }
   }
-
-  private float downX;
-  private float downY;
-  private boolean isTouchCaptured;
-  private float upX1;
-  private float upY1;
-  private float upX2;
-  private float upY2;
-  private float x1, x2;
-  static final int min_distance = 20;
-
-  boolean eventSent = false;
 
   public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.85f;

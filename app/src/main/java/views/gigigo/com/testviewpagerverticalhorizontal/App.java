@@ -1,16 +1,19 @@
 package views.gigigo.com.testviewpagerverticalhorizontal;
 
 import android.app.Application;
+import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 
 /**
  * Created by nubor on 28/03/2017.
  */
 public class App extends Application {
-  static boolean mBInterceptVertical=false;
-  static boolean mBInterceptHorizontal=true;
-  static boolean mBInterceptINH=true;
+  static boolean mBInterceptVertical = false;
+  static boolean mBInterceptHorizontal = true;
+  static boolean mBInterceptINH = true;
 
+  public static ViewPager mVerticalVP;
+  public static ViewPager mHorizontalVP;
 
   private static float downX;
   private static float downY;
@@ -18,13 +21,13 @@ public class App extends Application {
   private static float upX1;
   private static float upY1;
 
-  public static boolean onTouchMethod(MotionEvent event) {
+  public static boolean onTouchMethod(ViewPager vp, MotionEvent event) {
     switch (event.getAction()) {
       case MotionEvent.ACTION_UP: {
         System.out.println("@@@ ACTION_UP");
         downX = 0;
         downY = 0;
-        isTouchCaptured=false;
+        isTouchCaptured = false;
       }
       break;
       case MotionEvent.ACTION_DOWN: {
@@ -45,23 +48,57 @@ public class App extends Application {
           //HORIZONTAL SCROLL
           if (Math.abs(deltaX) > Math.abs(deltaY)) {
             System.out.println(" @@@ HORIZONTAL" + Math.abs(deltaX));
-              if (Math.abs(deltaX) > 140) {
-            // left or right
-            App.mBInterceptHorizontal = true;
-            App.mBInterceptVertical = false;
-                App.mBInterceptINH=true;
+            if (Math.abs(deltaX) > 240) {
+              // left or right
+              //fixme comprobarlo si es un instance of
+              if (!App.mBInterceptHorizontal && mVerticalVP.getCurrentItem()==0) {
+                int idxVideoTo = mHorizontalVP.getCurrentItem();
+                if (downX > upX1) {
+                  idxVideoTo = idxVideoTo + 1;
+                } else {
+                  idxVideoTo = idxVideoTo - 1;
+                }
+
+                if (idxVideoTo < 0) idxVideoTo = 0;
+                if (idxVideoTo >= vp.getAdapter().getCount() - 1) {
+                  idxVideoTo = mHorizontalVP.getAdapter().getCount() - 1;
+                }
+                mHorizontalVP.setCurrentItem(idxVideoTo);
               }
+              if(mVerticalVP.getCurrentItem()==0) {
+                App.mBInterceptHorizontal = true;
+                App.mBInterceptVertical = false;
+                App.mBInterceptINH = true;
+              }
+            }
+
             System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + App.mBInterceptVertical);
             System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
           }
           //VERTICAL SCROLL
           else {
             System.out.println(" @@@VERTICAL" + Math.abs(deltaY));
-               if (Math.abs(deltaY) > 200) {
-            App.mBInterceptHorizontal = false;
-            App.mBInterceptVertical = true;
-                 App.mBInterceptINH=false;
+            if (Math.abs(deltaY) > 320) {
+
+              if (!App.mBInterceptVertical) {
+
+                int idxVideoTo = mVerticalVP.getCurrentItem();
+                if (downY > upY1) {
+                  idxVideoTo = idxVideoTo + 1;
+                } else {
+                  idxVideoTo = idxVideoTo - 1;
+                }
+
+                if (idxVideoTo < 0) idxVideoTo = 0;
+                if (idxVideoTo >= vp.getAdapter().getCount() - 1) {
+                  idxVideoTo = mVerticalVP.getAdapter().getCount() - 1;
+                }
+                mVerticalVP.setCurrentItem(idxVideoTo);
               }
+              App.mBInterceptHorizontal = false;
+              App.mBInterceptVertical = true;
+              App.mBInterceptINH = false;
+            }
             System.out.println("@@@ VERTICAL  mBInterceptVertical" + App.mBInterceptVertical);
             System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
           }
