@@ -24,7 +24,7 @@ public class App extends Application {
   public static boolean onTouchMethod(ViewPager vp, MotionEvent event) {
     switch (event.getAction()) {
       case MotionEvent.ACTION_UP: {
-        System.out.println("@@@ ACTION_UP");
+       // System.out.println("@@@ ACTION_UP");
         downX = 0;
         downY = 0;
         isTouchCaptured = false;
@@ -33,12 +33,12 @@ public class App extends Application {
       case MotionEvent.ACTION_DOWN: {
         downX = event.getRawX();
         downY = event.getRawY();
-        System.out.println("@@@ ACTION_DOWN" + downX + ":" + downY);
+       // System.out.println("@@@ ACTION_DOWN" + downX + ":" + downY);
         isTouchCaptured = true;
       }
       break;
       case MotionEvent.ACTION_MOVE: {
-        System.out.println("@@@ ACTION_MOVE" + upX1 + ":" + upY1);
+       // System.out.println("@@@ ACTION_MOVE" + upX1 + ":" + upY1);
         if (isTouchCaptured) {
           upX1 = event.getRawX();
           upY1 = event.getRawY();
@@ -47,12 +47,13 @@ public class App extends Application {
           float deltaY = upY1 - downY;
           //HORIZONTAL SCROLL
           if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            System.out.println(" @@@ HORIZONTAL" + Math.abs(deltaX));
+          //  System.out.println(" @@@ HORIZONTAL" + Math.abs(deltaX));
             if (Math.abs(deltaX) > 240) {
               // left or right
               //fixme comprobarlo si es un instance of
               if (!App.mBInterceptHorizontal && mVerticalVP.getCurrentItem()==0) {
-                int idxVideoTo = mHorizontalVP.getCurrentItem();
+
+                int idxVideoTo = mHorizontalVP.getCurrentItem();// %((CustomHorizontalPagerAdapter)mHorizontalVP.getAdapter()).getRealCount();
                 if (downX > upX1) {
                   idxVideoTo = idxVideoTo + 1;
                 } else {
@@ -60,10 +61,11 @@ public class App extends Application {
                 }
 
                 if (idxVideoTo < 0) idxVideoTo = 0;
-                if (idxVideoTo >= vp.getAdapter().getCount() - 1) {
-                  idxVideoTo = mHorizontalVP.getAdapter().getCount() - 1;
+                if (idxVideoTo >= mHorizontalVP.getAdapter().getCount())  {
+                  idxVideoTo =  mHorizontalVP.getAdapter().getCount();
                 }
                 mHorizontalVP.setCurrentItem(idxVideoTo);
+               // mHorizontalVP.
               }
               if(mVerticalVP.getCurrentItem()==0) {
                 App.mBInterceptHorizontal = true;
@@ -72,8 +74,8 @@ public class App extends Application {
               }
             }
 
-            System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + App.mBInterceptVertical);
-            System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
+           // System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + App.mBInterceptVertical);
+           // System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
           }
           //VERTICAL SCROLL
           else {
@@ -99,8 +101,8 @@ public class App extends Application {
               App.mBInterceptVertical = true;
               App.mBInterceptINH = false;
             }
-            System.out.println("@@@ VERTICAL  mBInterceptVertical" + App.mBInterceptVertical);
-            System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
+           // System.out.println("@@@ VERTICAL  mBInterceptVertical" + App.mBInterceptVertical);
+           // System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
           }
           return true;
         }

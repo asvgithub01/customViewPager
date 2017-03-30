@@ -26,14 +26,14 @@ public class HorizontalViewPager extends ViewPager {
     setPageTransformer(true, new ZoomOutPageTransformer());
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
     setOverScrollMode(OVER_SCROLL_NEVER);
-    App.mHorizontalVP = this;
+    if( App.mHorizontalVP==null)  App.mHorizontalVP = this;
   }
 
   /**
    * Swaps the X and Y coordinates of your touch event.
    */
   @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
-    System.out.println("VPH ### HORIZONTAL" + App.mBInterceptHorizontal);
+   // System.out.println("VPH ### HORIZONTAL" + App.mBInterceptHorizontal);
 
     if (App.mBInterceptHorizontal) {
       return super.onInterceptTouchEvent(ev);
@@ -43,7 +43,7 @@ public class HorizontalViewPager extends ViewPager {
   }
 
   @Override public boolean onTouchEvent(MotionEvent event) {
-    System.out.println("VPH ### onTouchEvent");
+   // System.out.println("VPH ### onTouchEvent");
 
     if (App.mBInterceptINH) App.onTouchMethod(this, event);
 
@@ -53,6 +53,7 @@ public class HorizontalViewPager extends ViewPager {
       return false;
     }
   }
+
 
   public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.85f;
@@ -121,4 +122,6 @@ public class HorizontalViewPager extends ViewPager {
       }
     }
   }
+
+
 }

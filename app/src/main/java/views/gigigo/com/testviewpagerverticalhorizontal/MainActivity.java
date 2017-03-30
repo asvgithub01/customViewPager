@@ -2,7 +2,6 @@ package views.gigigo.com.testviewpagerverticalhorizontal;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
       lstModelVertical.add(new ModelObject("Vertical " + i)); //el i0 nunca se mostrará
       lstModelHorizontalFirstItem.add(new ModelObject("Horizontal " + i));
     }
+    lstModelVertical.add(new ModelObject("Vertical one extra"));
   }
 
 

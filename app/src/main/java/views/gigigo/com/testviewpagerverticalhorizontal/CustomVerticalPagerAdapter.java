@@ -37,6 +37,7 @@ public class CustomVerticalPagerAdapter extends PagerAdapter {
      HorizontalViewPager viewpagerHorizontal = (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
       viewpagerHorizontal.setAdapter(
           new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem));
+      viewpagerHorizontal.setCurrentItem(((viewpagerHorizontal.getAdapter().getCount()/2)-mLstHorizontalFirstItem.size()/2)-1);
     } else {
       layout = (ViewGroup) inflater.inflate(R.layout.view_vertical_title, collection, false);
       if (position % 2 == 0) {
@@ -56,7 +57,13 @@ public class CustomVerticalPagerAdapter extends PagerAdapter {
   @Override public void destroyItem(ViewGroup collection, int position, Object view) {
     collection.removeView((View) view);
   }
+  public int getRealCount() {
 
+    return this.getCount();
+    //todo
+    //return ModelObject.values().length;
+
+  }
   @Override public int getCount() {
     return mLstVertical.size();
     //todo
