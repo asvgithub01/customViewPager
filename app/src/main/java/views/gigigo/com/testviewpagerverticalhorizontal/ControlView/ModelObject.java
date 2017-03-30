@@ -1,4 +1,4 @@
-package views.gigigo.com.testviewpagerverticalhorizontal;
+package views.gigigo.com.testviewpagerverticalhorizontal.ControlView;
 
 /**
  * Created by nubor on 27/03/2017.

@@ -37,13 +37,13 @@ public class CustomVerticalPagerAdapter extends PagerAdapter {
      HorizontalViewPager viewpagerHorizontal = (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
       viewpagerHorizontal.setAdapter(
           new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem));
-      viewpagerHorizontal.setCurrentItem(((viewpagerHorizontal.getAdapter().getCount()/2)-mLstHorizontalFirstItem.size()/2)-1);
+      viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount()/2);
     } else {
       layout = (ViewGroup) inflater.inflate(R.layout.view_vertical_title_lib, collection, false);
       if (position % 2 == 0) {
-        layout.setBackgroundColor(Color.CYAN);//par
+        layout.setBackgroundColor(Color.DKGRAY);//par
       } else {
-        layout.setBackgroundColor(Color.GREEN);//impar
+        layout.setBackgroundColor(Color.MAGENTA);//impar
       }
       TextView txtTitle = (TextView) layout.findViewById(R.id.txtTitle);
       txtTitle.setText(mLstVertical.get(position).getTitle());

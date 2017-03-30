@@ -28,36 +28,18 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
 
   }
 
-  //private int pos = -1;
-  //private int lastPosition = 0;
+
 
   @Override public Object instantiateItem(ViewGroup collection, int pos) {
     LayoutInflater inflater = LayoutInflater.from(mContext);
     ViewGroup layout;
 
     layout = (ViewGroup) inflater.inflate(R.layout.view_horizontal_title_lib, collection, false);
-/*
-    System.out.println("pos: " + pos  );
-    System.out.println("position: " + position);
-    System.out.println("lastPosition: " + lastPosition);
-
-
-      if (lastPosition > position) {
-        --pos;
-      } else {
-        ++pos;
-      }
-
-    if (pos < 0) pos = mLstHorizontalFirstItem.size() - 1;
-    if (pos == mLstHorizontalFirstItem.size()) pos = 0;
-    */
-
-   // lastPosition = position;
 
     if (getVirtualPosition(pos) % 2 == 0) {
-      layout.setBackgroundColor(Color.RED);//par
+      layout.setBackgroundColor(Color.BLUE);//par
     } else {
-      layout.setBackgroundColor(Color.BLACK);//impar
+      layout.setBackgroundColor(Color.GRAY);//impar
     }
     TextView txtTitle = (TextView) layout.findViewById(R.id.txtTitle);
     txtTitle.setText(mLstHorizontalFirstItem.get(getVirtualPosition(pos)).getTitle());
@@ -70,13 +52,6 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
 
   @Override public void destroyItem(ViewGroup collection, int position, Object view) {
     collection.removeView((View) view);
-
-   // this.destroyItem(collection, getVirtualPosition(position), view);
-
-    //if (this.getCount() < 4) {
-    //  this.instantiateItem(collection, getVirtualPosition(position));
-    //}
-
   }
   int getVirtualPosition(int realPosition) {
     int virtualPos=realPosition % mLstHorizontalFirstItem.size();
@@ -84,27 +59,18 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
     System.out.println("realPosition"+realPosition);
     System.out.println("virtualPos"+virtualPos);
     System.out.println("this.getCount()"+this.getCount());
-    //if(virtualPos>mLstHorizontalFirstItem.size()-1)
-    //  virtualPos=0;
 
     return virtualPos;
   }
 
 
   public int getRealCount() {
-
       return mLstHorizontalFirstItem.size();
-    //todo
-    //return ModelObject.values().length;
-
   }
 
   @Override public int getCount() {
-   return   Integer.MAX_VALUE;
+   return  mLstHorizontalFirstItem.size()*1000;// Integer.MAX_VALUE;
     // return mLstHorizontalFirstItem.size();
-    //todo
-    //return ModelObject.values().length;
-
   }
 
   @Override public boolean isViewFromObject(View view, Object object) {

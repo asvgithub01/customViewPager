@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
  >
- <views.gigigo.com.testviewpagerverticalhorizontal.HorizontalViewPager
+ <views.gigigo.com.testviewpagerverticalhorizontal.ControlView.HorizontalViewPager
       android:id="@+id/viewpagerHorizontal"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
