@@ -37,7 +37,7 @@ public class CustomVerticalPagerAdapter extends PagerAdapter {
      HorizontalViewPager viewpagerHorizontal = (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
       viewpagerHorizontal.setAdapter(
           new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem));
-      viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount()/2);
+      viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount()/2,false);
     } else {
       layout = (ViewGroup) inflater.inflate(R.layout.view_vertical_title_lib, collection, false);
       if (position % 2 == 0) {

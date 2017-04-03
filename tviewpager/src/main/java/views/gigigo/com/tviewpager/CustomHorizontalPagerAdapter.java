@@ -27,9 +27,6 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
     mLstHorizontalFirstItem = lstModelHorizontalFirstItem;
 
   }
-
-
-
   @Override public Object instantiateItem(ViewGroup collection, int pos) {
 
     LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -70,7 +67,7 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
   }
 
   @Override public int getCount() {
-   return  mLstHorizontalFirstItem.size()*50;// Integer.MAX_VALUE;
+   return  mLstHorizontalFirstItem.size()*10;// Integer.MAX_VALUE;
     // return mLstHorizontalFirstItem.size();
   }
 
