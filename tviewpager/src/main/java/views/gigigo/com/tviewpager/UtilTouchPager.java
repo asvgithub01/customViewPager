@@ -20,10 +20,14 @@ public class UtilTouchPager {
   private static float upX1;
   private static float upY1;
 
+  public static int pixelsChangedX = 240;
+  public static int pixelsChangedY = 320;
+
   public static boolean onTouchMethod(ViewPager vp, MotionEvent event) {
+
     switch (event.getAction()) {
       case MotionEvent.ACTION_UP: {
-       // System.out.println("@@@ ACTION_UP");
+        // System.out.println("@@@ ACTION_UP");
         downX = 0;
         downY = 0;
         isTouchCaptured = false;
@@ -32,12 +36,12 @@ public class UtilTouchPager {
       case MotionEvent.ACTION_DOWN: {
         downX = event.getRawX();
         downY = event.getRawY();
-       // System.out.println("@@@ ACTION_DOWN" + downX + ":" + downY);
+        // System.out.println("@@@ ACTION_DOWN" + downX + ":" + downY);
         isTouchCaptured = true;
       }
       break;
       case MotionEvent.ACTION_MOVE: {
-       // System.out.println("@@@ ACTION_MOVE" + upX1 + ":" + upY1);
+        // System.out.println("@@@ ACTION_MOVE" + upX1 + ":" + upY1);
         if (isTouchCaptured) {
           upX1 = event.getRawX();
           upY1 = event.getRawY();
@@ -46,13 +50,14 @@ public class UtilTouchPager {
           float deltaY = upY1 - downY;
           //HORIZONTAL SCROLL
           if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          //  System.out.println(" @@@ HORIZONTAL" + Math.abs(deltaX));
-            if (Math.abs(deltaX) > 240) {
+            //  System.out.println(" @@@ HORIZONTAL" + Math.abs(deltaX));
+            if (Math.abs(deltaX) > pixelsChangedX) {
               // left or right
               //fixme comprobarlo si es un instance of
-              if (!UtilTouchPager.mBInterceptHorizontal && mVerticalVP.getCurrentItem()==0) {
+              if (!UtilTouchPager.mBInterceptHorizontal && mVerticalVP.getCurrentItem() == 0) {
 
-                int idxVideoTo = mHorizontalVP.getCurrentItem();// %((CustomHorizontalPagerAdapter)mHorizontalVP.getAdapter()).getRealCount();
+                int idxVideoTo =
+                    mHorizontalVP.getCurrentItem();// %((CustomHorizontalPagerAdapter)mHorizontalVP.getAdapter()).getRealCount();
                 if (downX > upX1) {
                   idxVideoTo = idxVideoTo + 1;
                 } else {
@@ -60,26 +65,26 @@ public class UtilTouchPager {
                 }
 
                 if (idxVideoTo < 0) idxVideoTo = 0;
-                if (idxVideoTo >= mHorizontalVP.getAdapter().getCount())  {
-                  idxVideoTo =  mHorizontalVP.getAdapter().getCount();
+                if (idxVideoTo >= mHorizontalVP.getAdapter().getCount()) {
+                  idxVideoTo = mHorizontalVP.getAdapter().getCount();
                 }
-                mHorizontalVP.setCurrentItem(idxVideoTo,true);
-               // mHorizontalVP.
+                mHorizontalVP.setCurrentItem(idxVideoTo, true);
+                // mHorizontalVP.
               }
-              if(mVerticalVP.getCurrentItem()==0) {
+              if (mVerticalVP.getCurrentItem() == 0) {
                 UtilTouchPager.mBInterceptHorizontal = true;
                 UtilTouchPager.mBInterceptVertical = false;
                 UtilTouchPager.mBInterceptINH = true;
               }
             }
 
-           // System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + UtilTouchPager.mBInterceptVertical);
-           // System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + UtilTouchPager.mBInterceptHorizontal);
+            // System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + UtilTouchPager.mBInterceptVertical);
+            // System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + UtilTouchPager.mBInterceptHorizontal);
           }
           //VERTICAL SCROLL
           else {
             System.out.println(" @@@VERTICAL" + Math.abs(deltaY));
-            if (Math.abs(deltaY) > 320) {
+            if (Math.abs(deltaY) > pixelsChangedY) {
 
               if (!UtilTouchPager.mBInterceptVertical) {
 
@@ -94,14 +99,14 @@ public class UtilTouchPager {
                 if (idxVideoTo >= vp.getAdapter().getCount() - 1) {
                   idxVideoTo = mVerticalVP.getAdapter().getCount() - 1;
                 }
-                mVerticalVP.setCurrentItem(idxVideoTo,true);
+                mVerticalVP.setCurrentItem(idxVideoTo, true);
               }
               UtilTouchPager.mBInterceptHorizontal = false;
               UtilTouchPager.mBInterceptVertical = true;
               UtilTouchPager.mBInterceptINH = false;
             }
-           // System.out.println("@@@ VERTICAL  mBInterceptVertical" + UtilTouchPager.mBInterceptVertical);
-           // System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + UtilTouchPager.mBInterceptHorizontal);
+            // System.out.println("@@@ VERTICAL  mBInterceptVertical" + UtilTouchPager.mBInterceptVertical);
+            // System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + UtilTouchPager.mBInterceptHorizontal);
           }
           return true;
         }

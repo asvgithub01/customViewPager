@@ -1,9 +1,11 @@
 package views.gigigo.com.tviewpager;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -26,22 +28,42 @@ public class VerticalViewPager extends ViewPager {
     setOverScrollMode(OVER_SCROLL_NEVER);
     UtilTouchPager.mVerticalVP = this;
 
+    if (UtilTouchPager.pixelsChangedX == 0) {
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        Display display = null;
+        display = this.getDisplay();
+
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        UtilTouchPager.pixelsChangedX = width / 6;
+        int height = size.y;
+        UtilTouchPager.pixelsChangedY = height / 8;
+      } else {
+        UtilTouchPager.pixelsChangedX = 240;
+        UtilTouchPager.pixelsChangedY = 320;
+      }
+    }
   }
 
   @Override public void setAdapter(PagerAdapter adapter) {
     super.setAdapter(adapter);
-    CustomVerticalPagerAdapter customAdapter= (CustomVerticalPagerAdapter) adapter;
-    this.setOffscreenPageLimit(customAdapter.mLstVertical.size()+1);
+    CustomVerticalPagerAdapter customAdapter = (CustomVerticalPagerAdapter) adapter;
+    this.setOffscreenPageLimit(customAdapter.mLstVertical.size() + 1);
   }
 
   private class VerticalPageTransformer implements PageTransformer {
     private static final float MIN_SCALE = 0.75f;
 
     @Override public void transformPage(View view, float position) {
-
+     if(position==-1 || position==1)
+       view.setVisibility(GONE);
+      else
+        view.setVisibility(VISIBLE);
       if (position < -1) { // [-Infinity,-1)
         // This page is way off-screen to the left.
         view.setAlpha(0);
+
       } else if (position <= 0) { // [-1,0]
         // Use the default slide transition when moving to the left page
         view.setAlpha(1);
