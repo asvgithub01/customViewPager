@@ -1,32 +1,32 @@
 package views.gigigo.com.tviewpager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
  * Created by nubor on 27/03/2017.
  */
-public class CustomVerticalPagerAdapter extends PagerAdapter {
-  ArrayList<ModelObject> mLstVertical = new ArrayList<>();
-  ArrayList<ModelObject> mLstHorizontalFirstItem = new ArrayList<>();
+public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
+  ArrayList<T> mLstVertical = new ArrayList<>();
+  ArrayList<T> mLstHorizontalFirstItem = new ArrayList<>();
   private Context mContext;
   public int mPosition=0;
+  private CallBackAdapterItemInstanciate mCallback;
 
   public CustomVerticalPagerAdapter(Context context) {
     mContext = context;
   }
 
-  public CustomVerticalPagerAdapter(Context context, ArrayList<ModelObject> lstModelVertical,
-      ArrayList<ModelObject> lstModelHorizontalFirstItem) {
+  public CustomVerticalPagerAdapter(Context context, ArrayList<T> lstModelVertical,
+      ArrayList<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
     mContext = context;
     mLstVertical = lstModelVertical;
     mLstHorizontalFirstItem = lstModelHorizontalFirstItem;
+    mCallback =callback;
   }
 
   @Override public Object instantiateItem(ViewGroup collection, int position) {
@@ -36,19 +36,11 @@ public class CustomVerticalPagerAdapter extends PagerAdapter {
       layout = (ViewGroup) inflater.inflate(R.layout.view_viewpager_preview_lib, collection, false);
      HorizontalViewPager viewpagerHorizontal = (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
       viewpagerHorizontal.setAdapter(
-          new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem));
+          new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem,mCallback));
       viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount()/2,false);
 
-
     } else {
-      layout = (ViewGroup) inflater.inflate(R.layout.view_vertical_title_lib, collection, false);
-      if (position % 2 == 0) {
-        layout.setBackgroundColor(Color.DKGRAY);//par
-      } else {
-        layout.setBackgroundColor(Color.MAGENTA);//impar
-      }
-      TextView txtTitle = (TextView) layout.findViewById(R.id.txtTitle);
-      txtTitle.setText(mLstVertical.get(position).getTitle());
+       layout=(ViewGroup) mCallback.OnVerticalInstantiateItem(collection,position);
     }
     collection.addView(layout);
     mPosition=position;
@@ -76,8 +68,8 @@ public class CustomVerticalPagerAdapter extends PagerAdapter {
     return view == object;
   }
 
-  @Override public CharSequence getPageTitle(int position) {
-    ModelObject customPagerEnum = mLstVertical.get(position);
-    return customPagerEnum.getTitle();
-  }
+  //@Override public CharSequence getPageTitle(int position) {
+  //  ModelObject customPagerEnum = mLstVertical.get(position);
+  //  return customPagerEnum.getTitle();
+  //}
 }

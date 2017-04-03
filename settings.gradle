@@ -1,1 +1,1 @@
-include ':tviewpager' //,':app'
+include ':tviewpager'// ,':app'

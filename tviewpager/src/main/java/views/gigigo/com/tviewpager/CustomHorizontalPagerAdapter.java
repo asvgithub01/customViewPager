@@ -1,46 +1,33 @@
 package views.gigigo.com.tviewpager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
  * Created by nubor on 27/03/2017.
  */
-public class CustomHorizontalPagerAdapter extends PagerAdapter {
+public class CustomHorizontalPagerAdapter<T> extends PagerAdapter {
 
-  ArrayList<ModelObject> mLstHorizontalFirstItem = new ArrayList<>();
+  ArrayList<T> mLstHorizontalFirstItem = new ArrayList<>();
   private Context mContext;
-
-  public CustomHorizontalPagerAdapter(Context context) {
-    mContext = context;
-  }
+  CallBackAdapterItemInstanciate mCallback;
 
   public CustomHorizontalPagerAdapter(Context context,
-      ArrayList<ModelObject> lstModelHorizontalFirstItem) {
+      ArrayList<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
     mContext = context;
     mLstHorizontalFirstItem = lstModelHorizontalFirstItem;
-
+    mCallback = callback;
   }
+
   @Override public Object instantiateItem(ViewGroup collection, int pos) {
 
-    LayoutInflater inflater = LayoutInflater.from(mContext);
-    ViewGroup layout;
+    //LayoutInflater inflater = LayoutInflater.from(mContext);
+    //ViewGroup layout;
 
-    layout = (ViewGroup) inflater.inflate(R.layout.view_horizontal_title_lib, collection, false);
-
-    if (getVirtualPosition(pos) % 2 == 0) {
-      layout.setBackgroundColor(Color.BLUE);//par
-    } else {
-      layout.setBackgroundColor(Color.GRAY);//impar
-    }
-    TextView txtTitle = (TextView) layout.findViewById(R.id.txtTitle);
-    txtTitle.setText(mLstHorizontalFirstItem.get(getVirtualPosition(pos)).getTitle());
+    ViewGroup layout = (ViewGroup) mCallback.OnHorizontalInstantiateItem(collection, pos);
 
     collection.addView(layout);
 
@@ -51,23 +38,28 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
   @Override public void destroyItem(ViewGroup collection, int position, Object view) {
     collection.removeView((View) view);
   }
-  int getVirtualPosition(int realPosition) {
-    int virtualPos=realPosition % mLstHorizontalFirstItem.size();
 
-    System.out.println("realPosition"+realPosition);
-    System.out.println("virtualPos"+virtualPos);
-    System.out.println("this.getCount()"+this.getCount());
+  public static int getVirtualPosition(int realPosition, int dataSize) {
+    int virtualPos = realPosition % dataSize;
+
+    System.out.println("realPosition" + realPosition);
+    System.out.println("virtualPos" + virtualPos);
+    System.out.println("this.getCount()" + dataSize * 10);
 
     return virtualPos;
   }
 
+  public int getVirtualPosition(int realPosition) {
+
+    return getVirtualPosition(realPosition, mLstHorizontalFirstItem.size());
+  }
 
   public int getRealCount() {
-      return mLstHorizontalFirstItem.size();
+    return mLstHorizontalFirstItem.size();
   }
 
   @Override public int getCount() {
-   return  mLstHorizontalFirstItem.size()*10;// Integer.MAX_VALUE;
+    return mLstHorizontalFirstItem.size() * 10;// Integer.MAX_VALUE;
     // return mLstHorizontalFirstItem.size();
   }
 
@@ -75,8 +67,8 @@ public class CustomHorizontalPagerAdapter extends PagerAdapter {
     return view == object;
   }
 
-  @Override public CharSequence getPageTitle(int position) {
-    ModelObject customPagerEnum = mLstHorizontalFirstItem.get(position);
-    return customPagerEnum.getTitle();
-  }
+  //@Override public CharSequence getPageTitle(int position) {
+  //  T customPagerEnum = mLstHorizontalFirstItem.get(position);
+  //  return customPagerEnum.getTitle();
+  //}
 }
