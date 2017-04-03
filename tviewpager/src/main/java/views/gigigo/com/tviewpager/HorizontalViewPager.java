@@ -1,6 +1,7 @@
 package views.gigigo.com.tviewpager;
 
 import android.content.Context;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -23,19 +24,20 @@ public class HorizontalViewPager extends ViewPager {
 
   private void init() {
     // The majority of the magic happens here
-    setPageTransformer(true, new ZoomOutPageTransformer());
+    //setPageTransformer(true, new ZoomOutPageTransformer());
+   // setPageTransformer(true, new DepthPageTransformer());
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
     setOverScrollMode(OVER_SCROLL_NEVER);
-    if( App.mHorizontalVP==null)  App.mHorizontalVP = this;
+    if( UtilTouchPager.mHorizontalVP==null)  UtilTouchPager.mHorizontalVP = this;
   }
 
   /**
    * Swaps the X and Y coordinates of your touch event.
    */
   @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
-   // System.out.println("VPH ### HORIZONTAL" + App.mBInterceptHorizontal);
+   // System.out.println("VPH ### HORIZONTAL" + UtilTouchPager.mBInterceptHorizontal);
 
-    if (App.mBInterceptHorizontal) {
+    if (UtilTouchPager.mBInterceptHorizontal) {
       return super.onInterceptTouchEvent(ev);
     } else {
       return false;
@@ -45,15 +47,20 @@ public class HorizontalViewPager extends ViewPager {
   @Override public boolean onTouchEvent(MotionEvent event) {
    // System.out.println("VPH ### onTouchEvent");
 
-    if (App.mBInterceptINH) App.onTouchMethod(this, event);
+    if (UtilTouchPager.mBInterceptINH) UtilTouchPager.onTouchMethod(this, event);
 
-    if (App.mBInterceptHorizontal) {
+    if (UtilTouchPager.mBInterceptHorizontal) {
       return super.onTouchEvent(event);
     } else {
       return false;
     }
   }
 
+  @Override public void setAdapter(PagerAdapter adapter) {
+    super.setAdapter(adapter);
+    CustomHorizontalPagerAdapter horizontalPagerAdapter = (CustomHorizontalPagerAdapter) adapter;
+    this.setOffscreenPageLimit(horizontalPagerAdapter.getRealCount()+1);
+  }
 
   public class ZoomOutPageTransformer implements PageTransformer {
     private static final float MIN_SCALE = 0.85f;

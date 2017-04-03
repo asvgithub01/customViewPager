@@ -33,7 +33,7 @@ public class HorizontalViewPager extends ViewPager {
    * Swaps the X and Y coordinates of your touch event.
    */
   @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
-   // System.out.println("VPH ### HORIZONTAL" + App.mBInterceptHorizontal);
+   // System.out.println("VPH ### HORIZONTAL" + UtilTouchPager.mBInterceptHorizontal);
 
     if (App.mBInterceptHorizontal) {
       return super.onInterceptTouchEvent(ev);

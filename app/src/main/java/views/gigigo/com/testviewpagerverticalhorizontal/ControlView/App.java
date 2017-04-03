@@ -73,8 +73,8 @@ public class App  {
               }
             }
 
-           // System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + App.mBInterceptVertical);
-           // System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
+           // System.out.println("@@@ HORIZONTAL  mBInterceptVertical" + UtilTouchPager.mBInterceptVertical);
+           // System.out.println("@@@ HORIZONTAL  mBInterceptHorizontal" + UtilTouchPager.mBInterceptHorizontal);
           }
           //VERTICAL SCROLL
           else {
@@ -100,8 +100,8 @@ public class App  {
               App.mBInterceptVertical = true;
               App.mBInterceptINH = false;
             }
-           // System.out.println("@@@ VERTICAL  mBInterceptVertical" + App.mBInterceptVertical);
-           // System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + App.mBInterceptHorizontal);
+           // System.out.println("@@@ VERTICAL  mBInterceptVertical" + UtilTouchPager.mBInterceptVertical);
+           // System.out.println("@@@ VERTICAL  mBInterceptHorizontal" + UtilTouchPager.mBInterceptHorizontal);
           }
           return true;
         }

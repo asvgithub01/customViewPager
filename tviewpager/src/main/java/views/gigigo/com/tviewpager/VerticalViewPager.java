@@ -1,6 +1,7 @@
 package views.gigigo.com.tviewpager;
 
 import android.content.Context;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -23,7 +24,14 @@ public class VerticalViewPager extends ViewPager {
     setPageTransformer(true, new VerticalPageTransformer());
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
     setOverScrollMode(OVER_SCROLL_NEVER);
-    App.mVerticalVP=this  ;
+    UtilTouchPager.mVerticalVP = this;
+
+  }
+
+  @Override public void setAdapter(PagerAdapter adapter) {
+    super.setAdapter(adapter);
+    CustomVerticalPagerAdapter customAdapter= (CustomVerticalPagerAdapter) adapter;
+    this.setOffscreenPageLimit(customAdapter.mLstVertical.size()+1);
   }
 
   private class VerticalPageTransformer implements PageTransformer {
@@ -65,7 +73,6 @@ public class VerticalViewPager extends ViewPager {
   /**
    * Swaps the X and Y coordinates of your touch event.
    */
-
   private MotionEvent swapXY(MotionEvent ev) {
     float width = getWidth();
     float height = getHeight();
@@ -79,15 +86,15 @@ public class VerticalViewPager extends ViewPager {
   }
 
   @Override public boolean onInterceptTouchEvent(MotionEvent event) {
-   // System.out.println("VPV ###  VERTICAL " + App.mBInterceptVertical);
+    // System.out.println("VPV ###  VERTICAL " + UtilTouchPager.mBInterceptVertical);
 
     if (getAdapter().getItemPosition(this.getCurrentItem()) <= 0) {
-      App.mBInterceptINH = true;
+      UtilTouchPager.mBInterceptINH = true;
     } else {
-      App.mBInterceptINH = false;
+      UtilTouchPager.mBInterceptINH = false;
     }
 
-    if (App.mBInterceptVertical) {
+    if (UtilTouchPager.mBInterceptVertical) {
       swapXY(event);
       return super.onInterceptTouchEvent(swapXY(event));
     } else {
@@ -98,9 +105,9 @@ public class VerticalViewPager extends ViewPager {
   @Override public boolean onTouchEvent(MotionEvent event) {
     //System.out.println("VPV ### onTouchEvent" + event.getAction());
 
-    if (App.mBInterceptVertical) App.onTouchMethod(this,event);
+    if (UtilTouchPager.mBInterceptVertical) UtilTouchPager.onTouchMethod(this, event);
 
-    if (App.mBInterceptVertical) {
+    if (UtilTouchPager.mBInterceptVertical) {
       return super.onTouchEvent(swapXY(event));
     } else {
       return false;
