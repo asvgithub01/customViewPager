@@ -56,9 +56,9 @@ public class VerticalViewPager extends ViewPager {
     this.setOffscreenPageLimit(customAdapter.getCount() + 1);
   }
 
-  public void setCurrentHorizontalItem(int position, boolean smoothScroll) {
+  public void nextPage(boolean smoothScroll) {
     if (customAdapter != null) {
-      customAdapter.setCurrentHorizontalItem(position, smoothScroll);
+      customAdapter.nextPage(smoothScroll);
     }
   }
 

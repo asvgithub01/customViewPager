@@ -67,13 +67,14 @@ public class MainActivity extends AppCompatActivity {
             lstModelHorizontalFirstItem, myCallBack, new OnVHPageChangeListener() {
           @Override public void onChangeHorizontalPage(int position) {
             Log.d("TAG", "Position Horizontal: " + position);
-            //viewPager.setCurrentHorizontalItem(0, true);
+
           }
 
           @Override public void onChangeVerticalPage(int position) {
             Log.d("TAG", "Position Vertical: " + position);
           }
         }));
+    viewPager.nextPage(true);
   }
 
   private void createModels() {
