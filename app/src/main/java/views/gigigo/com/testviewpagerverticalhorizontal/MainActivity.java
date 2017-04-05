@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import views.gigigo.com.tviewpager.CallBackAdapterItemInstanciate;
 import views.gigigo.com.tviewpager.CustomHorizontalPagerAdapter;
 import views.gigigo.com.tviewpager.OnVHPageChangeListener;
+import views.gigigo.com.tviewpager.VerticalViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override public Object OnHorizontalInstantiateItem(ViewGroup collection, int position) {
       LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-      ViewGroup layout = (ViewGroup) inflater.inflate(
-           R.layout.view_horizontal_title, collection, false);
+      ViewGroup layout =
+          (ViewGroup) inflater.inflate(R.layout.view_horizontal_title, collection, false);
       int index = CustomHorizontalPagerAdapter.getVirtualPosition(position,
           lstModelHorizontalFirstItem.size());
       if (index % 2 == 0) {
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
       return layout;
     }
   };
+  private VerticalViewPager viewPager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -59,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
     //viewPager.setAdapter(
     //    new CustomVerticalPagerAdapter(this, lstModelVertical, lstModelHorizontalFirstItem));
 
-    views.gigigo.com.tviewpager.VerticalViewPager viewPager =
-        (views.gigigo.com.tviewpager.VerticalViewPager) findViewById(R.id.viewpagerlib);
+    viewPager = (VerticalViewPager) findViewById(R.id.viewpagerlib);
     viewPager.setAdapter(
         new views.gigigo.com.tviewpager.CustomVerticalPagerAdapter(this, lstModelVertical,
             lstModelHorizontalFirstItem, myCallBack, new OnVHPageChangeListener() {
           @Override public void onChangeHorizontalPage(int position) {
             Log.d("TAG", "Position Horizontal: " + position);
+            //viewPager.setCurrentHorizontalItem(0, true);
           }
 
           @Override public void onChangeVerticalPage(int position) {

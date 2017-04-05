@@ -17,9 +17,10 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
   private final CallBackAdapterItemInstanciate mCallback;
   private final OnVHPageChangeListener onPageChangeListener;
 
-  private int mPosition = 0;
   private List<T> mLstVertical = new ArrayList<>();
   private List<T> mLstHorizontalFirstItem = new ArrayList<>();
+
+  private HorizontalViewPager viewpagerHorizontal;
 
   public CustomVerticalPagerAdapter(Context context, List<T> lstModelVertical,
       List<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
@@ -41,8 +42,7 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
     ViewGroup layout;
     if (position == 0) {
       layout = (ViewGroup) inflater.inflate(R.layout.view_viewpager_preview_lib, collection, false);
-      HorizontalViewPager viewpagerHorizontal =
-          (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
+      viewpagerHorizontal = (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
       viewpagerHorizontal.setAdapter(
           new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem, mCallback));
       viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount() / 2, false);
@@ -51,7 +51,6 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
       layout = (ViewGroup) mCallback.OnVerticalInstantiateItem(collection, position);
     }
     collection.addView(layout);
-    mPosition = position;
     //todo all shit, view page inflate title view
     return layout;
   }
@@ -61,29 +60,24 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
   }
 
   public int getRealCount() {
-
     return this.getCount();
-    //todo
-    //return ModelObject.values().length;
-
   }
 
   @Override public int getCount() {
     return mLstVertical.size();
-    //todo
-    //return ModelObject.values().length;
   }
 
   @Override public boolean isViewFromObject(View view, Object object) {
     return view == object;
   }
 
-  //@Override public CharSequence getPageTitle(int position) {
-  //  ModelObject customPagerEnum = mLstVertical.get(position);
-  //  return customPagerEnum.getTitle();
-  //}
-
   public OnVHPageChangeListener getOnPageChangeListener() {
     return onPageChangeListener;
+  }
+
+  public void setCurrentHorizontalItem(int position, boolean smoothScroll) {
+    if (viewpagerHorizontal != null) {
+      viewpagerHorizontal.setCurrentItem(position, smoothScroll);
+    }
   }
 }

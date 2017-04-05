@@ -11,7 +11,6 @@ import android.view.View;
 
 public class VerticalViewPager extends ViewPager {
 
-  private OnVHPageChangeListener onVHPageChangeListener;
   private CustomVerticalPagerAdapter customAdapter;
 
   public VerticalViewPager(Context context) {
@@ -55,6 +54,12 @@ public class VerticalViewPager extends ViewPager {
     super.setAdapter(adapter);
     customAdapter = (CustomVerticalPagerAdapter) adapter;
     this.setOffscreenPageLimit(customAdapter.getCount() + 1);
+  }
+
+  public void setCurrentHorizontalItem(int position, boolean smoothScroll) {
+    if (customAdapter != null) {
+      customAdapter.setCurrentHorizontalItem(position, smoothScroll);
+    }
   }
 
   private class VerticalPageTransformer implements PageTransformer {
