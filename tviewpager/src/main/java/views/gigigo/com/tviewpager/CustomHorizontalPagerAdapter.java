@@ -5,18 +5,19 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nubor on 27/03/2017.
  */
 public class CustomHorizontalPagerAdapter<T> extends PagerAdapter {
 
-  ArrayList<T> mLstHorizontalFirstItem = new ArrayList<>();
+  List<T> mLstHorizontalFirstItem = new ArrayList<>();
   private Context mContext;
   CallBackAdapterItemInstanciate mCallback;
 
   public CustomHorizontalPagerAdapter(Context context,
-      ArrayList<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
+      List<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
     mContext = context;
     mLstHorizontalFirstItem = lstModelHorizontalFirstItem;
     mCallback = callback;

@@ -11,6 +11,9 @@ import android.view.View;
 
 public class VerticalViewPager extends ViewPager {
 
+  private OnVHPageChangeListener onVHPageChangeListener;
+  private CustomVerticalPagerAdapter customAdapter;
+
   public VerticalViewPager(Context context) {
     super(context);
     init();
@@ -22,6 +25,8 @@ public class VerticalViewPager extends ViewPager {
   }
 
   private void init() {
+    setOnPageChangeListener(onPageChangeListener);
+
     // The majority of the magic happens here
     setPageTransformer(true, new VerticalPageTransformer());
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
@@ -48,8 +53,8 @@ public class VerticalViewPager extends ViewPager {
 
   @Override public void setAdapter(PagerAdapter adapter) {
     super.setAdapter(adapter);
-    CustomVerticalPagerAdapter customAdapter = (CustomVerticalPagerAdapter) adapter;
-    this.setOffscreenPageLimit(customAdapter.mLstVertical.size() + 1);
+    customAdapter = (CustomVerticalPagerAdapter) adapter;
+    this.setOffscreenPageLimit(customAdapter.getCount() + 1);
   }
 
   private class VerticalPageTransformer implements PageTransformer {
@@ -135,4 +140,22 @@ public class VerticalViewPager extends ViewPager {
       return false;
     }
   }
+
+  private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override public void onPageSelected(int position) {
+      OnVHPageChangeListener onPageChangeListener = customAdapter.getOnPageChangeListener();
+      if (onPageChangeListener != null) {
+        onPageChangeListener.onChangeVerticalPage(position);
+      }
+    }
+
+    @Override public void onPageScrollStateChanged(int state) {
+
+    }
+  };
 }

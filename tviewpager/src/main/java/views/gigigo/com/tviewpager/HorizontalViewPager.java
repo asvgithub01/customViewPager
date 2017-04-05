@@ -12,6 +12,8 @@ import android.view.View;
  */
 public class HorizontalViewPager extends ViewPager {
 
+  private OnVHPageChangeListener onVHPageChangeListener;
+
   public HorizontalViewPager(Context context) {
     super(context);
     init();
@@ -29,6 +31,8 @@ public class HorizontalViewPager extends ViewPager {
     // The easiest way to get rid of the overscroll drawing that happens on the left and right
     setOverScrollMode(OVER_SCROLL_NEVER);
     if( UtilTouchPager.mHorizontalVP==null)  UtilTouchPager.mHorizontalVP = this;
+
+    setOnPageChangeListener(onPageChangeListener);
   }
 
   /**
@@ -60,6 +64,10 @@ public class HorizontalViewPager extends ViewPager {
     super.setAdapter(adapter);
     CustomHorizontalPagerAdapter horizontalPagerAdapter = (CustomHorizontalPagerAdapter) adapter;
     this.setOffscreenPageLimit(horizontalPagerAdapter.getRealCount()+1);
+  }
+
+  public void setOnVHPageChangeListener(OnVHPageChangeListener onVHPageChangeListener) {
+    this.onVHPageChangeListener = onVHPageChangeListener;
   }
 
   public class ZoomOutPageTransformer implements PageTransformer {
@@ -130,5 +138,20 @@ public class HorizontalViewPager extends ViewPager {
     }
   }
 
+  private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+    }
+
+    @Override public void onPageSelected(int position) {
+      if (onVHPageChangeListener != null) {
+        onVHPageChangeListener.onChangeHorizontalPage(position);
+      }
+    }
+
+    @Override public void onPageScrollStateChanged(int state) {
+
+    }
+  };
 }

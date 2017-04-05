@@ -3,12 +3,14 @@ package views.gigigo.com.testviewpagerverticalhorizontal;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 import views.gigigo.com.tviewpager.CallBackAdapterItemInstanciate;
 import views.gigigo.com.tviewpager.CustomHorizontalPagerAdapter;
+import views.gigigo.com.tviewpager.OnVHPageChangeListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,7 +63,15 @@ public class MainActivity extends AppCompatActivity {
         (views.gigigo.com.tviewpager.VerticalViewPager) findViewById(R.id.viewpagerlib);
     viewPager.setAdapter(
         new views.gigigo.com.tviewpager.CustomVerticalPagerAdapter(this, lstModelVertical,
-            lstModelHorizontalFirstItem, myCallBack));
+            lstModelHorizontalFirstItem, myCallBack, new OnVHPageChangeListener() {
+          @Override public void onChangeHorizontalPage(int position) {
+            Log.d("TAG", "Position Horizontal: " + position);
+          }
+
+          @Override public void onChangeVerticalPage(int position) {
+            Log.d("TAG", "Position Vertical: " + position);
+          }
+        }));
   }
 
   private void createModels() {

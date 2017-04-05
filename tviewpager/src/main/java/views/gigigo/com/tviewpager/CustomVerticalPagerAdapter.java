@@ -6,27 +6,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nubor on 27/03/2017.
  */
 public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
-  ArrayList<T> mLstVertical = new ArrayList<>();
-  ArrayList<T> mLstHorizontalFirstItem = new ArrayList<>();
-  private Context mContext;
-  public int mPosition=0;
-  private CallBackAdapterItemInstanciate mCallback;
 
-  public CustomVerticalPagerAdapter(Context context) {
-    mContext = context;
+  private final Context mContext;
+  private final CallBackAdapterItemInstanciate mCallback;
+  private final OnVHPageChangeListener onPageChangeListener;
+
+  private int mPosition = 0;
+  private List<T> mLstVertical = new ArrayList<>();
+  private List<T> mLstHorizontalFirstItem = new ArrayList<>();
+
+  public CustomVerticalPagerAdapter(Context context, List<T> lstModelVertical,
+      List<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
+    this(context, lstModelVertical, lstModelHorizontalFirstItem, callback, null);
   }
 
-  public CustomVerticalPagerAdapter(Context context, ArrayList<T> lstModelVertical,
-      ArrayList<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback) {
+  public CustomVerticalPagerAdapter(Context context, List<T> lstModelVertical,
+      List<T> lstModelHorizontalFirstItem, CallBackAdapterItemInstanciate callback,
+      OnVHPageChangeListener onPageChangeListener) {
     mContext = context;
     mLstVertical = lstModelVertical;
     mLstHorizontalFirstItem = lstModelHorizontalFirstItem;
-    mCallback =callback;
+    mCallback = callback;
+    this.onPageChangeListener = onPageChangeListener;
   }
 
   @Override public Object instantiateItem(ViewGroup collection, int position) {
@@ -34,16 +41,17 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
     ViewGroup layout;
     if (position == 0) {
       layout = (ViewGroup) inflater.inflate(R.layout.view_viewpager_preview_lib, collection, false);
-     HorizontalViewPager viewpagerHorizontal = (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
+      HorizontalViewPager viewpagerHorizontal =
+          (HorizontalViewPager) layout.findViewById(R.id.viewpagerHorizontal);
       viewpagerHorizontal.setAdapter(
-          new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem,mCallback));
-      viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount()/2,false);
-
+          new CustomHorizontalPagerAdapter(mContext, mLstHorizontalFirstItem, mCallback));
+      viewpagerHorizontal.setCurrentItem(viewpagerHorizontal.getAdapter().getCount() / 2, false);
+      viewpagerHorizontal.setOnVHPageChangeListener(onPageChangeListener);
     } else {
-       layout=(ViewGroup) mCallback.OnVerticalInstantiateItem(collection,position);
+      layout = (ViewGroup) mCallback.OnVerticalInstantiateItem(collection, position);
     }
     collection.addView(layout);
-    mPosition=position;
+    mPosition = position;
     //todo all shit, view page inflate title view
     return layout;
   }
@@ -51,6 +59,7 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
   @Override public void destroyItem(ViewGroup collection, int position, Object view) {
     collection.removeView((View) view);
   }
+
   public int getRealCount() {
 
     return this.getCount();
@@ -58,6 +67,7 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
     //return ModelObject.values().length;
 
   }
+
   @Override public int getCount() {
     return mLstVertical.size();
     //todo
@@ -72,4 +82,8 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
   //  ModelObject customPagerEnum = mLstVertical.get(position);
   //  return customPagerEnum.getTitle();
   //}
+
+  public OnVHPageChangeListener getOnPageChangeListener() {
+    return onPageChangeListener;
+  }
 }
