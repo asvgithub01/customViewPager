@@ -76,8 +76,8 @@ public class CustomVerticalPagerAdapter<T> extends PagerAdapter {
   }
 
   public void nextPage(boolean smoothScroll) {
-    if (viewpagerHorizontal != null) {
-      viewpagerHorizontal.setCurrentItem((viewpagerHorizontal.getCurrentItem() + 1) % mLstVertical.size(), smoothScroll);
+    if (viewpagerHorizontal != null && viewpagerHorizontal.getAdapter() != null) {
+      viewpagerHorizontal.setCurrentItem((viewpagerHorizontal.getCurrentItem() + 1) % viewpagerHorizontal.getAdapter().getCount(), smoothScroll);
     }
   }
 }

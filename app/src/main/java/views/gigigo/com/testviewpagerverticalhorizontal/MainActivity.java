@@ -2,6 +2,7 @@ package views.gigigo.com.testviewpagerverticalhorizontal;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,7 +75,16 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TAG", "Position Vertical: " + position);
           }
         }));
-    viewPager.nextPage(true);
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+
+    new Handler().postDelayed(new Runnable() {
+      @Override public void run() {
+        viewPager.nextPage(true);
+      }
+    }, 2000);
   }
 
   private void createModels() {
